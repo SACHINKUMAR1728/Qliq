@@ -2,22 +2,22 @@ import React from "react";
 
 const CampaignForm = () => {
   return (
-    <div className="flex items-center justify-center h-screen bg-blue-50">
-      <div className="w-full max-w-md p-8 bg-green-100 rounded-lg shadow-lg">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-[#131321] via-[#0E403E] to-[#11222C]">
+      <div className="w-full max-w-md p-8 bg-[#0E403E] rounded-xl shadow-lg border border-teal-500/30">
         <form className="space-y-6">
           {/* Title Input */}
           <div>
             <label
               htmlFor="title"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-teal-400"
             >
-              Title
+              Campaign Title
             </label>
             <input
               type="text"
               id="title"
               placeholder="Enter campaign title"
-              className="block w-full p-3 mt-2 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              className="block w-full p-3 mt-2 text-gray-100 placeholder-gray-400 bg-gray-800 border rounded-lg shadow-sm border-teal-500/30 focus:ring-teal-500 focus:border-teal-500"
             />
           </div>
 
@@ -25,13 +25,13 @@ const CampaignForm = () => {
           <div>
             <label
               htmlFor="size"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-teal-400"
             >
-              Select Size
+              Ad Size
             </label>
             <select
               id="size"
-              className="block w-full p-3 mt-2 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              className="block w-full p-3 mt-2 text-gray-100 bg-gray-800 border rounded-lg shadow-sm border-teal-500/30 focus:ring-teal-500 focus:border-teal-500"
             >
               <option>Small</option>
               <option>Medium</option>
@@ -43,14 +43,14 @@ const CampaignForm = () => {
           <div>
             <label
               htmlFor="upload"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-teal-400"
             >
-              Upload (IPFS)
+              Upload File (IPFS)
             </label>
             <input
               type="file"
               id="upload"
-              className="block w-full p-3 mt-2 bg-white border border-gray-300 rounded-md shadow-sm"
+              className="block w-full p-3 mt-2 text-gray-100 bg-gray-800 border rounded-lg shadow-sm border-teal-500/30"
             />
           </div>
 
@@ -58,14 +58,14 @@ const CampaignForm = () => {
           <div>
             <label
               htmlFor="targeting"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-teal-400"
             >
-              Targeting
+              Target Audience
             </label>
             <textarea
               id="targeting"
-              placeholder="Enter target audience"
-              className="block w-full p-3 mt-2 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Enter target audience details"
+              className="block w-full p-3 mt-2 text-gray-100 placeholder-gray-400 bg-gray-800 border rounded-lg shadow-sm border-teal-500/30 focus:ring-teal-500 focus:border-teal-500"
               rows="3"
             ></textarea>
           </div>
@@ -74,15 +74,15 @@ const CampaignForm = () => {
           <div>
             <label
               htmlFor="budget"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-teal-400"
             >
-              Budget
+              Budget (USD)
             </label>
             <input
               type="number"
               id="budget"
-              placeholder="Enter budget"
-              className="block w-full p-3 mt-2 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Enter budget amount"
+              className="block w-full p-3 mt-2 text-gray-100 placeholder-gray-400 bg-gray-800 border rounded-lg shadow-sm border-teal-500/30 focus:ring-teal-500 focus:border-teal-500"
             />
           </div>
 
@@ -90,9 +90,9 @@ const CampaignForm = () => {
           <div>
             <button
               type="submit"
-              className="w-full px-6 py-3 text-white bg-blue-500 rounded-md shadow-md hover:bg-blue-600"
+              className="w-full px-6 py-3 text-white rounded-lg shadow-md bg-gradient-to-r from-teal-500 to-emerald-500 hover:opacity-90"
             >
-              Pay
+              Pay & Submit
             </button>
           </div>
         </form>
