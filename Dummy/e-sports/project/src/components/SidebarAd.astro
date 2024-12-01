@@ -1,0 +1,47 @@
+---
+const adImage = "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&auto=format&fit=crop";
+---
+
+<div class="bg-card-bg rounded-lg p-6 sticky top-24 space-y-8">
+  <div class="relative overflow-hidden rounded-lg">
+    <img 
+      src={adImage} 
+      alt="Advertisement" 
+      class="w-full h-48 object-cover"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+      <div>
+        <p class="text-white font-bold text-xl mb-2">Premium Gaming Gear</p>
+        <p class="text-gray-200 text-sm">Upgrade your setup today!</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="border-t border-gray-800 pt-6">
+    <h3 class="text-white font-bold mb-4 font-orbitron">Trending Topics</h3>
+    <div class="flex flex-col gap-3">
+      <a href="#" class="text-gray-400 hover:text-gaming-blue transition-colors flex items-center gap-2">
+        <span class="text-gaming-blue">#</span>ESLProLeague
+      </a>
+      <a href="#" class="text-gray-400 hover:text-gaming-blue transition-colors flex items-center gap-2">
+        <span class="text-gaming-blue">#</span>VCTChampions
+      </a>
+      <a href="#" class="text-gray-400 hover:text-gaming-blue transition-colors flex items-center gap-2">
+        <span class="text-gaming-blue">#</span>Worlds2024
+      </a>
+    </div>
+  </div>
+
+  <div class="bg-gaming-blue/10 rounded-lg p-6">
+    <h3 class="text-white font-bold mb-3 font-orbitron">Newsletter</h3>
+    <p class="text-gray-400 text-sm mb-4">Stay updated with the latest in esports!</p>
+    <input 
+      type="email" 
+      placeholder="Your email" 
+      class="w-full bg-card-bg border border-gray-700 rounded-lg px-4 py-2 text-white mb-3 focus:border-gaming-blue focus:outline-none"
+    />
+    <button class="w-full bg-gaming-blue text-white rounded-lg py-2 hover:bg-gaming-blue/90 transition-colors">
+      Subscribe
+    </button>
+  </div>
+</div>

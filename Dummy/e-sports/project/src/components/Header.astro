@@ -1,0 +1,20 @@
+---
+import { categories } from '../data/posts';
+---
+
+<header class="bg-card-bg py-6 fixed w-full top-0 z-50">
+  <div class="container mx-auto px-4">
+    <nav class="flex items-center justify-between">
+      <a href="/" class="text-gaming-blue font-orbitron text-2xl font-bold">
+        EsportsHub
+      </a>
+      <div class="hidden md:flex space-x-6">
+        {categories.map(category => (
+          <a href={`/category/${category.toLowerCase()}`} class="text-white hover:text-gaming-blue transition-colors">
+            {category}
+          </a>
+        ))}
+      </div>
+    </nav>
+  </div>
+</header>
