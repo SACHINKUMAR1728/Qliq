@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import useContractStore from "../context/Web3Context";
 import { createIPFS } from "../function/IPFS";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const { createPublisher, createAdvertiser } = useContractStore();
@@ -275,12 +276,12 @@ const LoginForm = () => {
             </>
           )}
 
-          <button
-            type="submit"
+            <button
+              type="submit"
             className="w-full py-3 text-lg font-semibold text-white transition-all rounded-lg bg-gradient-to-r from-teal-500 to-emerald-500 hover:opacity-90"
-          >
+            >
             Signup
-          </button>
+            </button>
         </form>
       </div>
     </div>

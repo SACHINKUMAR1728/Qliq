@@ -5,8 +5,10 @@ import useContractStore from '../context/Web3Context.jsx';
 
 const ConnectMetaMask = () => {
   const [account, setAccount] = useState(null);
+  const [hover, setHover] = useState(false); // Add hover state here
   const { isPublisher, isadvertiser, isInitialized } = useContractStore();
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const savedAccount = localStorage.getItem('walletAddress');
