@@ -5,24 +5,24 @@ import useContractStore from '../context/Web3Context.jsx';
 
 const ConnectMetaMask = () => {
   const [account, setAccount] = useState(null);
-  const [hover, setHover] = useState(false); // Add hover state here
-  const { isPublisher, isadvertiser, isInitialized } = useContractStore();
+  const [hover, setHover] = useState(false); // Hover effect state
+  const { isPublisher, isAdvertiser, isInitialized, initializeContract } = useContractStore();
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const savedAccount = localStorage.getItem('walletAddress');
-    if (savedAccount) {
-      setAccount(savedAccount);
+    // Initialize contract when account is set and is not initialized yet
+    if (account && !isInitialized) {
+      initializeContract(account);
     }
-  }, []);
+  }, [account, isInitialized, initializeContract]);
 
   useEffect(() => {
     const checkAccountRole = async () => {
       if (account && isInitialized) {
         try {
           const publisher = await isPublisher(account);
-          const advertiser = await isadvertiser(account);
+          const advertiser = await isAdvertiser(account);
 
           if (publisher) {
             console.log("Account is a publisher. Redirecting to /publisher...");
@@ -42,7 +42,7 @@ const ConnectMetaMask = () => {
     };
 
     checkAccountRole();
-  }, [account, isPublisher, isadvertiser, isInitialized, navigate]);
+  }, [account, isPublisher, isAdvertiser, isInitialized, navigate]);
 
   const connectWallet = async () => {
     if (window.ethereum) {
@@ -50,7 +50,7 @@ const ConnectMetaMask = () => {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         const walletAddress = accounts[0];
         setAccount(walletAddress);
-        localStorage.setItem('walletAddress', walletAddress);
+        // localStorage.setItem('walletAddress', walletAddress);
         console.log('Connected account:', walletAddress);
       } catch (err) {
         console.error('Error connecting to MetaMask:', err);
