@@ -1,17 +1,5 @@
 {
-  "name": "script",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
-    "@google/generative-ai": "^0.21.0",
-    "axios": "^1.7.8",
-    "node-fetch": "^3.3.2"
+    "ethers": "^5.7.2"
   }
 }

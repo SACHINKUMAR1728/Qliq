@@ -1,8 +1,9 @@
 import { create } from 'zustand';
 import { ethers } from 'ethers';
-import abi from '../../abi/web3.json'; // Replace with correct ABI path
+import abi from '../../abi/unfold.json'; // Replace with correct ABI path
 
-const contractAddress = "0xf6bdb7b25e92b708fb7cc898aaf77b7e8a0a43ec";
+// const contractAddress = "0xf6bdb7b25e92b708fb7cc898aaf77b7e8a0a43ec"; // old
+const contractAddress = "0xFc4F6F2b7EC0935B7Bb7FAc81B015A2aD3AcDb0e"; //new
 
 const useContractStore = create((set, get) => ({
   account: 'not connected',
@@ -253,6 +254,34 @@ const useContractStore = create((set, get) => ({
       return false;
     }
   },
+  getcidofactiveads: async () => {
+    try{
+      const {isInitialized,contractForRead} = get();
+      if(!isInitialized) throw new Error("Contract is not initialized yet.");
+      const cid = await contractForRead.getActiveAds();
+      console.log("CID of active ads:",cid);
+      return cid;
+    }
+    catch (error) {
+      console.error("Error calling isPublisher:", error);
+      set({ error: error.message });
+      return false;
+    }
+  },
+  updateactiveadcid: async (cid) =>{
+    try {
+      const {isInitialized, contract} = get();
+      if(!isInitialized) throw new Error("Contract is not initialized yet.");
+      const tx = await contract.setActiveAds(cid);
+      console.log("Transaction sent:", tx.hash);
+      await tx.wait();
+      console.log("Transaction confirmed:", tx);
+      
+    } catch (error) {
+      console.error("Error updatingactive cids:", error);
+      set({ error: error.message });
+    }
+  }
 }));
 
 export default useContractStore;
