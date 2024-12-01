@@ -19,8 +19,6 @@ const router = createBrowserRouter(
   
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      {/* Public Routes */}
-      {/* <Route path="contract" element={<ContractPage/>}/> */}
       <Route index element={<Homepage />} />
       <Route path="login" element={<Login />} /> 
 
