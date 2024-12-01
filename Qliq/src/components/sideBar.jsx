@@ -1,5 +1,6 @@
 import React from "react";
 import { FaHome, FaBullhorn, FaChartLine, FaCog } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
@@ -22,12 +23,14 @@ const Sidebar = () => {
             </span>
           </li>
           {/* Campaigns */}
+          <Link to={"/dashboard/advertiser/list"}>
           <li className="flex items-center gap-4 p-4 transition-colors rounded-lg cursor-pointer group bg-gradient-to-r from-transparent to-gray-700/10 hover:bg-teal-500/20">
             <FaBullhorn className="w-6 h-6 text-teal-400 transition-transform group-hover:scale-110" />
             <span className="text-lg font-medium transition-colors group-hover:text-white">
               Campaigns
             </span>
           </li>
+          </Link>
           {/* Analytics */}
           <li className="flex items-center gap-4 p-4 transition-colors rounded-lg cursor-pointer group bg-gradient-to-r from-transparent to-gray-700/10 hover:bg-teal-500/20">
             <FaChartLine className="w-6 h-6 text-teal-400 transition-transform group-hover:scale-110" />
