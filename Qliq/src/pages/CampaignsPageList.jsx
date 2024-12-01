@@ -31,9 +31,7 @@ const CampaignsPageList = () => {
               className="flex items-center justify-between p-4 bg-gray-900 rounded-lg shadow-md"
             >
               <span className="text-sm font-medium text-gray-300">{campaign}</span>
-              <button className="px-4 py-1 text-sm font-medium text-gray-100 bg-teal-500 rounded-md hover:bg-teal-600">
-                Pause
-              </button>
+              
             </div>
           ))}
         </div>
