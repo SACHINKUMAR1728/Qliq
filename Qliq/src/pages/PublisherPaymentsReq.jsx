@@ -7,7 +7,7 @@ const RequestPaymentForm = () => {
   const handleRequest = (e) => {
     e.preventDefault();
     if (requestedAmount <= currentBalance && requestedAmount > 0) {
-    //   alert(Request for $${requestedAmount} has been submitted.);
+      alert(`Request for $${requestedAmount} has been submitted.`);
       setRequestedAmount("");
     } else {
       alert("Invalid amount. Please enter a valid amount within your balance.");
@@ -15,15 +15,15 @@ const RequestPaymentForm = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-blue-50">
-      <div className="w-full max-w-md p-8 bg-green-100 rounded-lg shadow-lg">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-[#131321] via-[#0E403E] to-[#11222C]">
+      <div className="w-full max-w-md p-8 bg-[#0E403E] rounded-xl shadow-lg border border-teal-500/30">
         <form className="space-y-6" onSubmit={handleRequest}>
           {/* Current Balance */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-teal-400">
               Current Balance
             </label>
-            <div className="block w-full p-3 mt-2 text-lg font-semibold text-center text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm">
+            <div className="block w-full p-4 mt-2 text-lg font-semibold text-center text-gray-100 bg-gray-900 rounded-lg shadow-inner">
               ${currentBalance.toFixed(2)}
             </div>
           </div>
@@ -32,7 +32,7 @@ const RequestPaymentForm = () => {
           <div>
             <label
               htmlFor="requestedAmount"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-teal-400"
             >
               Requested Amount
             </label>
@@ -42,7 +42,7 @@ const RequestPaymentForm = () => {
               placeholder="Enter amount"
               value={requestedAmount}
               onChange={(e) => setRequestedAmount(e.target.value)}
-              className="block w-full p-3 mt-2 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              className="block w-full p-3 mt-2 text-gray-100 placeholder-gray-400 bg-gray-800 border rounded-lg shadow-sm border-teal-500/30 focus:ring-teal-500 focus:border-teal-500"
             />
           </div>
 
@@ -50,9 +50,9 @@ const RequestPaymentForm = () => {
           <div className="text-right">
             <button
               type="submit"
-              className="px-6 py-2 text-white bg-blue-500 rounded-md shadow-md hover:bg-blue-600"
+              className="px-6 py-3 text-sm font-medium text-white rounded-lg shadow-md bg-gradient-to-r from-teal-500 to-emerald-500 hover:opacity-90"
             >
-              Request
+              Request Payment
             </button>
           </div>
         </form>
