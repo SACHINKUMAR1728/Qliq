@@ -49,13 +49,13 @@ const Hero = () => {
           <Capabilities />
         </div>
         <div className="relative px-4 py-20 sm:px-6 lg:px-8">
+          <NftShowcase />
+        </div>
+        <div className="relative px-4 py-20 sm:px-6 lg:px-8">
           <FeaturesSection />
         </div>
         <div className="relative px-4 py-20 sm:px-6 lg:px-8">
           <HowItWorks />
-        </div>
-        <div className="relative px-4 py-20 sm:px-6 lg:px-8">
-          <NftShowcase />
         </div>
 
         {/* Footer */}
