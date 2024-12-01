@@ -6,17 +6,10 @@ import abi from '../../abi/web3.json'; // Replace with the correct ABI path
 const contractAddress = "0xf6bdb7b25e92b708fb7cc898aaf77b7e8a0a43ec";
 
 // Zustand Store for Contract Interaction
-const useContractStore = create((set) => ({
-  account: 'not connected',
-  contract: null,
-  provider: null,
-  signer: null,
-  network: null,
-  loading: false,
-  error: null,
+const useContractStore = create((set,get) => {
 
   // Initialize the contract
-  initializeContract: async () => {
+  const initializeContract = async () => {
     try {
       console.log("Initializing contract...");
       set({ loading: true, error: null });
@@ -44,8 +37,9 @@ const useContractStore = create((set) => ({
       console.log("Signer initialized");
 
       // Initialize the contract
-      const contract = new ethers.Contract(contractAddress, abi, signer);
-      console.log("Contract initialized:", contract);
+      const contractWithSigner = new ethers.Contract(contractAddress, abi, signer);
+      const contractWithProvider = new ethers.Contract(contractAddress, abi, provider); // For read-only operations
+      console.log("Contract initialized:", contractWithSigner);
 
       // Listen for account changes
       ethereum.on('accountsChanged', (accounts) => {
@@ -65,17 +59,42 @@ const useContractStore = create((set) => ({
       });
 
       // Update the state with initialized values
-      set({ account, provider, signer, contract, network, loading: false, error: null });
+    //   set({ account, provider, signer, contract, network, loading: false, error: null });
+      set({
+        account,
+        provider,
+        signer,
+        contract: contractWithSigner,
+        contractForRead: contractWithProvider, // Add contract for read-only calls
+        network,
+        isInitialized: true,
+        loading: false,
+        error: null,
+      });
+
     } catch (error) {
       console.error("Error during contract initialization:", error);
       set({ error: error.message, loading: false });
     }
-  },
+  };
 
+   initializeContract();
+
+  return {
+    account: 'not connected',
+    contract: null,
+    contractForRead: null,
+    provider: null,
+    signer: null,
+    network: null,
+    isInitialized: false,
+    loading: false,
+    error: null,
   // Contract function: createAdvertiser
   createAdvertiser: async (advertiser, cid) => {
     try {
-      const { contract } = get();
+      const { isInitialized,contract } = get();
+      if (!isInitialized) throw new Error("Contract is not initialized yet.");
       const tx = await contract.createAdvertiser(advertiser, cid);
       console.log("Transaction sent:", tx.hash);
       await tx.wait();
@@ -89,7 +108,8 @@ const useContractStore = create((set) => ({
   // Contract function: createPublisher
   createPublisher: async (publisher, cid) => {
     try {
-      const { contract } = get();
+      const {isInitialized, contract } = get();
+      if (!isInitialized) throw new Error("Contract is not initialized yet.");
       const tx = await contract.createPublisher(publisher, cid);
       console.log("Transaction sent:", tx.hash);
       await tx.wait();
@@ -103,7 +123,8 @@ const useContractStore = create((set) => ({
   // Contract function: deposit
   deposit: async (amount) => {
     try {
-      const { contract } = get();
+      const { isInitialized,contract } = get();
+      if (!isInitialized) throw new Error("Contract is not initialized yet.");
       const tx = await contract.deposit({ value: ethers.utils.parseEther(amount.toString()) });
       console.log("Transaction sent:", tx.hash);
       await tx.wait();
@@ -117,7 +138,8 @@ const useContractStore = create((set) => ({
   // Contract function: requestPayment
   requestPayment: async (amount) => {
     try {
-      const { contract } = get();
+      const { isInitialized,contract } = get();
+      if (!isInitialized) throw new Error("Contract is not initialized yet.");
       const tx = await contract.requestPayment(amount);
       console.log("Transaction sent:", tx.hash);
       await tx.wait();
@@ -131,7 +153,8 @@ const useContractStore = create((set) => ({
   // Contract function: transferPayment
   transferPayment: async (user, amount) => {
     try {
-      const { contract } = get();
+      const { isInitialized,contract } = get();
+      if (!isInitialized) throw new Error("Contract is not initialized yet.");
       const tx = await contract.transferPayment(user, amount);
       console.log("Transaction sent:", tx.hash);
       await tx.wait();
@@ -145,7 +168,8 @@ const useContractStore = create((set) => ({
   // Contract function: updateAdvertiserCid
   updateAdvertiserCid: async (advertiser, newCid) => {
     try {
-      const { contract } = get();
+      const { isInitialized,contract } = get();
+      if (!isInitialized) throw new Error("Contract is not initialized yet.");
       const tx = await contract.updateAdvertiserCid(advertiser, newCid);
       console.log("Transaction sent:", tx.hash);
       await tx.wait();
@@ -159,7 +183,8 @@ const useContractStore = create((set) => ({
   // Contract function: updatePublisherCid
   updatePublisherCid: async (publisher, newCid) => {
     try {
-      const { contract } = get();
+      const { isInitialized,contract } = get();
+      if (!isInitialized) throw new Error("Contract is not initialized yet.");
       const tx = await contract.updatePublisherCid(publisher, newCid);
       console.log("Transaction sent:", tx.hash);
       await tx.wait();
@@ -173,7 +198,8 @@ const useContractStore = create((set) => ({
   // Contract view function: getCidOfAdvertiser
   getCidOfAdvertiser: async (advertiser) => {
     try {
-      const { contract } = get();
+      const {isInitialized, contract } = get();
+      if (!isInitialized) throw new Error("Contract is not initialized yet.");
       const cid = await contract.getCidOfAdvertiser(advertiser);
       console.log("CID of advertiser:", cid);
       return cid;
@@ -186,7 +212,8 @@ const useContractStore = create((set) => ({
   // Contract view function: getCidOfPublisher
   getCidOfPublisher: async (publisher) => {
     try {
-      const { contract } = get();
+      const { isInitialized,contract } = get();
+      if (!isInitialized) throw new Error("Contract is not initialized yet.");
       const cid = await contract.getCidOfPublisher(publisher);
       console.log("CID of publisher:", cid);
       return cid;
@@ -197,8 +224,9 @@ const useContractStore = create((set) => ({
   },
   isadvertiser: async (address) => {
     try {
-      const { contract } = get();
-      const isAdv = await contract.isAdvertiser(address);
+      const { isInitialized,contractForRead } = get();
+      if (!isInitialized) throw new Error("Contract is not initialized yet.");
+      const isAdv = await contractForRead.isAdvertiser(address);
       console.log("isAdvertiser:", isAdv);
       return isAdv;
     } catch (error) {
@@ -206,17 +234,23 @@ const useContractStore = create((set) => ({
       set({ error: error.message });
     }
   },
-    ispublisher: async (address) => {
-        try {
-        const { contract } = get();
-        const isPub = await contract.isPublisher(address);
-        console.log("isPublisher:", isPub);
-        return isPub;
-        } catch (error) {
-        console.error("Error calling isPublisher:", error);
-        set({ error: error.message });
-        }
+  isPublisher: async (address) => {
+    try {
+      const { isInitialized,contractForRead } = get(); // Use read-only contract
+      if (!isInitialized) throw new Error("Contract is not initialized yet.");
+      if (!contractForRead) throw new Error("Contract is not initialized");
+  
+      const isPub = await contractForRead.isPublisher(address);
+      console.log("isPublisher:", isPub);
+      return isPub;
+    } catch (error) {
+      console.error("Error calling isPublisher:", error);
+      set({ error: error.message });
+      return false;
     }
-}));
+  },
+}
+  
+});
 
 export default useContractStore;
