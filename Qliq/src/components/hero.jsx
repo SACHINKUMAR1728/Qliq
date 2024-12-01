@@ -12,14 +12,7 @@ const Hero = () => {
     <div>
       {/* Navbar */}
       <Navbar />
-<<<<<<< HEAD
       <div className="relative bg-gradient-to-r from-[#131321] via-[#0E403E] to-[#11222C] overflow-hidden ">
-=======
-
-      {/* Hero and Other Sections */}
-      <div className="relative bg-gradient-to-r from-[#131321] via-[#0E403E] to-[#11222C] overflow-hidden">
-        {/* Animated background effect */}
->>>>>>> e0acf966e05247d513c265111644ed580d8a54d7
         <div className="absolute inset-0 opacity-30">
           <div className="absolute top-0 bg-teal-500 rounded-full -left-10 w-96 h-96 mix-blend-multiply filter blur-3xl animate-blob"></div>
           <div className="absolute top-0 rounded-full -right-10 w-96 h-96 bg-emerald-500 mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
@@ -68,10 +61,6 @@ const Hero = () => {
         <div className="relative px-4 py-20 sm:px-6 lg:px-8">
           <HowItWorks />
         </div>
-<<<<<<< HEAD
-        
-=======
->>>>>>> e0acf966e05247d513c265111644ed580d8a54d7
 
         {/* Footer */}
         <Footer />
