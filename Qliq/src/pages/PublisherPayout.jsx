@@ -1,5 +1,5 @@
 import React from "react";
-import Sidebar from "./sideBar";
+import Sidebar from "../components/sideBar";
 
 const PaymentsPage = () => {
   const payments = [

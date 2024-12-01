@@ -13,6 +13,14 @@ import Login from './pages/login';
 import Homepage from './pages/Homepage';
 // import ContractPage from './components/contract';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import DashboardAdvertiser from './pages/DashboardAdvertiser';
+import CampaignForm from './pages/NewCampaignsPage';
+import CampaignsPageList from './pages/CampaignsPageList';
+import PublisherDashboard from './pages/DashboardPublisher';
+import ScriptsDisplay from './pages/ScriptsDisplay';
+import AnalyticsPage from './pages/PublisherAnalytics';
+import PaymentsPage from './pages/PublisherPayout';
+import RequestPaymentForm from './pages/PublisherPaymentsReq';
 
 
 const router = createBrowserRouter(
@@ -21,7 +29,17 @@ const router = createBrowserRouter(
     <Route path="/" element={<App />}>
       <Route index element={<Homepage />} />
       <Route path="login" element={<Login />} /> 
-
+      <Route path='dashboard'>
+        <Route path="advertiser" element={<DashboardAdvertiser/>}/>
+        <Route path="advertiser/list" element={<CampaignsPageList/>}/>
+        <Route path="advertiser/list/new" element={<CampaignForm/>}/>
+        {/* publisher----------------- */}
+        <Route path="publisher" element={<PublisherDashboard />}/>
+        <Route path="publisher/scripts" element={<ScriptsDisplay />} />
+        <Route path="publisher/analytics" element={<AnalyticsPage />} />
+        <Route path="publisher/payout" element={<PaymentsPage />}/>
+        <Route path="publisher/payout/request" element={<RequestPaymentForm />} />
+        </Route>
       <Route path="*" element={<Notfound />} />
     </Route>
   )
