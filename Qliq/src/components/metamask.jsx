@@ -7,8 +7,6 @@ const ConnectMetaMask = () => {
   const [account, setAccount] = useState(null);
   const { isPublisher, isadvertiser, isInitialized } = useContractStore();
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // To handle navigation
-  const [hover, setHover] = useState(false);
 
   useEffect(() => {
     const savedAccount = localStorage.getItem('walletAddress');
@@ -83,10 +81,13 @@ const ConnectMetaMask = () => {
     padding: '12px 24px',
     fontSize: '16px',
     fontWeight: 'bold',
-    borderRadius: '8px',
+    borderRadius: '50px',
     cursor: 'pointer',
-    transition: 'all 0.3s ease',
+    transition: 'all 0.3s ease-in-out',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   };
 
   const buttonHoverStyle = {
@@ -95,33 +96,53 @@ const ConnectMetaMask = () => {
   };
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-      <h1>MetaMask Connection</h1>
-      {!account ? (
-        <button
-          onClick={connectWallet}
-          style={hover ? { ...buttonStyle, ...buttonHoverStyle } : buttonStyle}
-          onMouseEnter={() => setHover(true)}
-          onMouseLeave={() => setHover(false)}
-        >
-          Connect to MetaMask
-        </button>
-      ) : (
-        <div>
-          <p>
-            <strong>Connected Account:</strong> {account}
-          </p>
+    <div className="min-h-screen bg-gradient-to-r from-[#131321] via-[#0E403E] to-[#11222C] overflow-hidden flex items-center justify-center p-4">
+      <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-6 text-center">
+        <img
+          src="https://res.cloudinary.com/do5e8qwxk/image/upload/v1733082257/MetaMask_Fox.svg_lw0agx.webp"
+          alt="MetaMask Logo"
+          className="mx-auto mb-4 w-24 h-24"
+        />
+        <h1 className="text-4xl font-semibold text-gray-800 mb-6">Connect Your MetaMask Wallet</h1>
+        <p className="text-lg text-gray-500 mb-8">
+          Unlock the world of decentralized finance by connecting your MetaMask wallet. It's quick, easy, and secure!
+        </p>
+        
+        {/* Connect Button */}
+        {!account ? (
           <button
-            onClick={getBalance}
+            onClick={connectWallet}
             style={hover ? { ...buttonStyle, ...buttonHoverStyle } : buttonStyle}
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
+            className="w-full flex items-center justify-center gap-3"
           >
-            Show Balance
+            <img
+              src="https://res.cloudinary.com/do5e8qwxk/image/upload/v1733082257/MetaMask_Fox.svg_lw0agx.webp"
+              alt="MetaMask"
+              className="w-6 h-6"
+            />
+            Connect to MetaMask
           </button>
-        </div>
-      )}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+        ) : (
+          <div>
+            <p className="text-lg text-gray-700 mb-4">
+              <strong>Connected Account:</strong> {account}
+            </p>
+            <button
+              onClick={getBalance}
+              style={hover ? { ...buttonStyle, ...buttonHoverStyle } : buttonStyle}
+              onMouseEnter={() => setHover(true)}
+              onMouseLeave={() => setHover(false)}
+              className="w-full flex items-center justify-center gap-3"
+            >
+              Show Balance
+            </button>
+          </div>
+        )}
+
+        {error && <p className="text-red-500 mt-4">{error}</p>}
+      </div>
     </div>
   );
 };
