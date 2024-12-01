@@ -119,10 +119,10 @@ const LoginForm = () => {
         console.log("IPFS Hash: ", ipfsHash);
 
         await createAdvertiser(walletAddress, ipfsHash);
-        // navigate("/dashboard/advertiser"); // Navigate without reloading
+        navigate("/dashboard/advertiser"); // Navigate without reloading
       } else if (selectedRole === "publisher") {
         await createPublisher(walletAddress, ipfsHash);
-        // navigate("/dashboard/publisher"); // Navigate without reloading
+        navigate("/dashboard/publisher"); // Navigate without reloading
       }
     } catch (error) {
       console.error("Error:", error);

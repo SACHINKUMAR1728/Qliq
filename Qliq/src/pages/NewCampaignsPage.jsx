@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { MultiSelect } from "react-multi-select-component";
-import  useContractStore  from "../context/Web3Context.jsx"; // Adjust the path as necessary
+import { v4 as uuidv4 } from 'uuid';
+import useContractStore from "../context/Web3Context";
+import { fetchJsonFromIpfs } from "../function/getcid.js";
+import { createIPFS } from "../function/IPFS.js";
+import { useNavigate } from 'react-router-dom';
 
 const CampaignForm = () => {
+  const { account, getCidOfAdvertiser, updateAdvertiserCid, deposit } = useContractStore();
   const [formData, setFormData] = useState({
     campaignName: "",
     budgetValue: "",
@@ -11,6 +16,9 @@ const CampaignForm = () => {
     tags: [],
     adDescription: "",
   });
+  const [ad, setAd] = useState(null);
+  const [buttonText, setButtonText] = useState("Create Ad");
+  const navigate = useNavigate();
 
   const tagOptions = [
     { label: "Gaming", value: "gaming" },
@@ -20,21 +28,20 @@ const CampaignForm = () => {
     // Add more tags as needed
   ];
 
-  const { getCidOfAdvertiser } = useContractStore();
-
   useEffect(() => {
     const fetchAdvertiserData = async () => {
       try {
-        const cid = await getCidOfAdvertiser("walletaddresshere");
-       // const data = await fetchJsonFromIpfs(cid); 
-        // Additional logic to handle advertiser data if needed
+        const cid = await getCidOfAdvertiser(account);
+        const advertiserData = await fetchJsonFromIpfs(cid);
+        setAd(advertiserData);
+        setButtonText("Pay");
       } catch (error) {
         console.error("Error fetching advertiser data:", error);
       }
     };
 
     fetchAdvertiserData();
-  }, [getCidOfAdvertiser]);
+  }, [account, getCidOfAdvertiser]);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -51,10 +58,61 @@ const CampaignForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Data:", formData);
-    // Additional submission logic here
+    setButtonText("Paying...");
+
+    // Generate a UUID for asset_id
+    const assetId = uuidv4();
+
+    // Map selected tags to their values
+    const selectedTags = formData.tags.map(tag => tag.value);
+
+    // Create the new asset object
+    const newAsset = {
+      asset_id: assetId,
+      asset_name: formData.campaignName,
+      analytics: {
+        impressions: 0,
+        clicks: 0,
+        conversions: 0,
+        spend: {
+          amount: parseFloat(formData.budgetValue),
+          currency: "Sepolia ETH",
+        },
+        performance_by_date: [],
+      },
+      image_url: formData.assetImageUrl,
+      ad_format: formData.adFormat,
+      tags: selectedTags,
+      description: formData.adDescription,
+    };
+
+    if (ad) {
+      // Insert the new asset at the beginning of the assets array
+      const updatedAssets = [newAsset, ...ad.assets];
+
+      // Update the ad object with the new assets array
+      const updatedAd = {
+        ...ad,
+        assets: updatedAssets,
+      };
+
+      try {
+        await deposit(newAsset.analytics.spend.amount);
+        setButtonText("Creating Ad...");
+        const newCid = await createIPFS(updatedAd);
+        await updateAdvertiserCid(account, newCid);
+        setButtonText("Ad Created");
+        navigate("/dashboard/advertiser/list");
+      } catch (error) {
+        console.error("Error during ad creation process:", error);
+        setButtonText("Error! Try Again");
+      }
+    } else {
+      console.error("Advertiser data is not loaded yet.");
+      setButtonText("Error! Try Again");
+    }
   };
 
   return (
@@ -176,7 +234,7 @@ const CampaignForm = () => {
               type="submit"
               className="w-full px-6 py-3 text-white bg-blue-500 rounded-md shadow-md hover:bg-blue-600"
             >
-              Pay
+              {buttonText}
             </button>
           </div>
         </form>

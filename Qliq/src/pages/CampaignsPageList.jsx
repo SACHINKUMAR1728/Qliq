@@ -1,5 +1,6 @@
 import React from "react";
-import Sidebar from "../components/sideBar";
+import Sidebar from "../components/sidebar";
+import { Link } from "react-router-dom";
 
 const CampaignsPageList = () => {
   const campaigns = [
@@ -18,9 +19,11 @@ const CampaignsPageList = () => {
         {/* Header */}
         <header className="flex items-center justify-between p-6 shadow-md bg-gradient-to-r from-teal-500 to-emerald-500 rounded-xl">
           <h1 className="text-2xl font-bold text-white">Campaigns</h1>
-          <button className="px-6 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-lg hover:opacity-90">
-            New Campaign
-          </button>
+          <Link to="/dashboard/advertiser/list/new">
+            <button className="px-6 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-lg hover:opacity-90">
+              New Campaign
+            </button>
+          </Link>
         </header>
 
         {/* Campaign List */}
@@ -31,7 +34,6 @@ const CampaignsPageList = () => {
               className="flex items-center justify-between p-4 bg-gray-900 rounded-lg shadow-md"
             >
               <span className="text-sm font-medium text-gray-300">{campaign}</span>
-              
             </div>
           ))}
         </div>
