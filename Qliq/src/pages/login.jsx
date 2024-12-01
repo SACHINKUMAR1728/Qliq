@@ -1,6 +1,5 @@
 import React from 'react'
 import { OktoProvider, BuildType } from 'okto-sdk-react';
-import Okto from '../components/Okto';
 import ConnectMetaMask from '../components/metamask';
 
 const login = () => {
