@@ -195,6 +195,28 @@ const useContractStore = create((set) => ({
       set({ error: error.message });
     }
   },
+  isadvertiser: async (address) => {
+    try {
+      const { contract } = get();
+      const isAdv = await contract.isAdvertiser(address);
+      console.log("isAdvertiser:", isAdv);
+      return isAdv;
+    } catch (error) {
+      console.error("Error calling isAdvertiser:", error);
+      set({ error: error.message });
+    }
+  },
+    ispublisher: async (address) => {
+        try {
+        const { contract } = get();
+        const isPub = await contract.isPublisher(address);
+        console.log("isPublisher:", isPub);
+        return isPub;
+        } catch (error) {
+        console.error("Error calling isPublisher:", error);
+        set({ error: error.message });
+        }
+    }
 }));
 
 export default useContractStore;
