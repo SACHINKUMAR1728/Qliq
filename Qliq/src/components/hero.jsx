@@ -1,6 +1,10 @@
 import React from 'react';
 import Navbar from '../components/Navbar'; // Adjust the path as per your folder structure
 import FeaturesSection from '../components/features'; // Adjust the path as per your folder structure
+import HowItWorks from '../components/howItWorks'; // Adjust the path as per your folder structure
+import Capabilities from './capabilities';
+import Footer from './footer';
+import NftShowcase from './nftShowcase';
 import { ArrowRight } from 'lucide-react';
 
 const Hero = () => {
@@ -9,7 +13,7 @@ const Hero = () => {
       {/* Navbar */}
       <Navbar />
 
-      {/* Hero and Features Section with Shared Background */}
+      {/* Hero and Other Sections */}
       <div className="relative bg-gradient-to-r from-[#131321] via-[#0E403E] to-[#11222C] overflow-hidden">
         {/* Animated background effect */}
         <div className="absolute inset-0 opacity-30">
@@ -44,10 +48,22 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Features Section */}
-        <div className="relative px-4 py-16 sm:px-6 lg:px-8">
+        {/* Additional Sections */}
+        <div className="relative px-4 py-20 sm:px-6 lg:px-8">
+          <Capabilities />
+        </div>
+        <div className="relative px-4 py-20 sm:px-6 lg:px-8">
           <FeaturesSection />
         </div>
+        <div className="relative px-4 py-20 sm:px-6 lg:px-8">
+          <HowItWorks />
+        </div>
+        <div className="relative px-4 py-20 sm:px-6 lg:px-8">
+          <NftShowcase />
+        </div>
+
+        {/* Footer */}
+        <Footer />
       </div>
     </div>
   );
