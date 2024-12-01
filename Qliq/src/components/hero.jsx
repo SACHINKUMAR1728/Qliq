@@ -2,6 +2,8 @@ import React from 'react';
 import Navbar from '../components/Navbar'; // Adjust the path as per your folder structure
 import FeaturesSection from '../components/features'; // Adjust the path as per your folder structure
 import HowItWorks from '../components/howItWorks'; // Adjust the path as per your folder structure
+import NftShowcase from './nftShowcase';
+import Footer from './footer';
 import Capabilities from './capabilities';
 import { ArrowRight } from 'lucide-react';
 
