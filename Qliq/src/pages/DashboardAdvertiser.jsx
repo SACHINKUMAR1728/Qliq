@@ -1,5 +1,5 @@
 import React from "react";
-import Sidebar from "../components/sideBar";
+import Sidebar from "../components/sidebar";
 import Metrics from "../components/metrics";
 import Campaigns from "../components/Campaigns";
 import { faEye, faMousePointer, faChartLine } from '@fortawesome/free-solid-svg-icons';

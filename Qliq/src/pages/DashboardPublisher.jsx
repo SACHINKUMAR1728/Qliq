@@ -1,5 +1,5 @@
 import React from "react";
-import Sidebar from "../components/sideBar"; // Reuse the Sidebar component
+import Sidebarpub from "../components/sidebarpub";
 
 const Metrics = ({ title }) => {
   return (
@@ -30,7 +30,7 @@ const PublisherDashboard = () => {
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
-      <Sidebar
+      <Sidebarpub
         title="Dashboard Publisher"
         links={["Home", "Websites", "Analytics", "Payment"]}
       />
