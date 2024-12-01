@@ -21,7 +21,7 @@ import ScriptsDisplay from './pages/ScriptsDisplay';
 import AnalyticsPage from './pages/PublisherAnalytics';
 import PaymentsPage from './pages/PublisherPayout';
 import RequestPaymentForm from './pages/PublisherPaymentsReq';
-
+import LoginForm from './components/login';
 
 const router = createBrowserRouter(
   
@@ -29,6 +29,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<App />}>
       <Route index element={<Homepage />} />
       <Route path="login" element={<Login />} /> 
+      <Route path="login/new" element={<LoginForm />} /> 
       <Route path='dashboard'>
         <Route path="advertiser" element={<DashboardAdvertiser/>}/>
         <Route path="advertiser/list" element={<CampaignsPageList/>}/>
