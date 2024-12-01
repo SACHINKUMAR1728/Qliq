@@ -16,6 +16,9 @@ const LoginForm = () => {
   });
   const [selectedTags, setSelectedTags] = useState([]);
   const [walletAddress, setWalletAddress] = useState("");
+  const [loading, setLoading] = useState(false); // To handle loading state
+  const [error, setError] = useState(""); // To handle error state
+  const navigate = useNavigate(); // React Router's navigate hook
 
   useEffect(() => {
     // Fetch wallet address from localStorage
@@ -113,18 +116,20 @@ const LoginForm = () => {
     }
 
     try {
-      // Send POST request to AWS Lambda endpoint
+      setLoading(true); // Set loading state to true
       const ipfsHash = await createIPFS(submissionData);
       if (selectedRole === "advertiser") {
         await createAdvertiser(walletAddress, ipfsHash);
-        window.location.href = "/dashboard/advertiser";
+        navigate("/dashboard/advertiser"); // Programmatically navigate without reloading
       } else if (selectedRole === "publisher") {
         await createPublisher(walletAddress, ipfsHash);
-        window.location.href = "/dashboard/publisher";
+        navigate("/dashboard/publisher"); // Programmatically navigate without reloading
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("An error occurred. Please try again.");
+      setError("An error occurred. Please try again.");
+    } finally {
+      setLoading(false); // Set loading state to false
     }
   };
 
@@ -231,7 +236,7 @@ const LoginForm = () => {
                 <input
                   id="websiteUrl"
                   name="websiteUrl"
-                  type="url"
+                  type="text"
                   value={formData.websiteUrl}
                   onChange={handleInputChange}
                   placeholder="Enter your website URL"
@@ -246,10 +251,9 @@ const LoginForm = () => {
                   name="websiteDescription"
                   value={formData.websiteDescription}
                   onChange={handleInputChange}
-                  placeholder="Enter a brief description"
+                  placeholder="Enter a brief description of your website"
                   className="w-full px-4 py-2 text-white bg-[#11222C]"
-                  rows="3"
-                ></textarea>
+                />
               </div>
               <div>
                 <label className="block mb-2 text-gray-300">Select Website Tag(s)</label>
