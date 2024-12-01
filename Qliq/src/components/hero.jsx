@@ -1,16 +1,18 @@
 import React from 'react';
-import Navbar from '../components/Navbar'; // Adjust the path as per your folder structure
-import FeaturesSection from '../components/features'; // Adjust the path as per your folder structure
-import HowItWorks from '../components/howItWorks'; // Adjust the path as per your folder structure
-import NftShowcase from './nftShowcase';
-import Footer from './footer';
-import Capabilities from './capabilities';
+// import Navbar from '../components/Navbar'; // Adjust the path as per your folder structure
+// import FeaturesSection from '../components/features'; // Adjust the path as per your folder structure
+// import HowItWorks from '../components/howItWorks'; // Adjust the path as per your folder structure
+// import NftShowcase from './nftShowcase';
+// import Footer from './footer';
+// import Capabilities from './capabilities';
+// import Sidebar from './sidebar';
+import Login from './login';
 import { ArrowRight } from 'lucide-react';
 
 const Hero = () => {
   return (
     <div>
-      <Navbar />
+      {/* <Navbar />
       <div className="relative bg-gradient-to-r from-[#131321] via-[#0E403E] to-[#11222C] overflow-hidden">
         <div className="absolute inset-0 opacity-30">
           <div className="absolute top-0 bg-teal-500 rounded-full -left-10 w-96 h-96 mix-blend-multiply filter blur-3xl animate-blob"></div>
@@ -19,7 +21,7 @@ const Hero = () => {
         </div>
 
         {/* Hero Section */}
-        <div className="relative flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
+        {/* <div className="relative flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="mb-8 text-5xl font-extrabold tracking-tight md:text-7xl">
               <span className="text-transparent bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text">
@@ -45,23 +47,24 @@ const Hero = () => {
         </div>
 
         {/* Additional Sections */}
-        <div className="relative px-4 py-20 sm:px-6 lg:px-8">
+       {/* <div className="relative px-4 py-20 sm:px-6 lg:px-8">
           <Capabilities />
-        </div>
-        <div className="relative px-4 py-20 sm:px-6 lg:px-8">
+        </div> */}
+        {/* <div className="relative px-4 py-20 sm:px-6 lg:px-8">
           <NftShowcase />
-        </div>
-        <div className="relative px-4 py-20 sm:px-6 lg:px-8">
+        </div> */}
+        {/* <div className="relative px-4 py-20 sm:px-6 lg:px-8">
           <FeaturesSection />
-        </div>
-        <div className="relative px-4 py-20 sm:px-6 lg:px-8">
+        </div> */}
+        {/* <div className="relative px-4 py-20 sm:px-6 lg:px-8">
           <HowItWorks />
-        </div>
+        </div>  */}
 
         {/* Footer */}
-        <Footer />
+        {/* <Footer />  */}
+        <Login/>
       </div>
-    </div>
+    // </div>
   );
 };
 
