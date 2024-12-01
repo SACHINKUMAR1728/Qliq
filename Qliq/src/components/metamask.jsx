@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
+import { useNavigate } from 'react-router-dom';
+import useContractStore from '../context/Web3Context.jsx';
 
 const ConnectMetaMask = () => {
   const [account, setAccount] = useState(null);
+  const { isPublisher, isadvertiser, isInitialized } = useContractStore();
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // To handle navigation
+  const [hover, setHover] = useState(false);
 
-  // Load wallet address from localStorage on component mount
   useEffect(() => {
     const savedAccount = localStorage.getItem('walletAddress');
     if (savedAccount) {
@@ -13,15 +17,40 @@ const ConnectMetaMask = () => {
     }
   }, []);
 
-  // Function to connect to MetaMask
+  useEffect(() => {
+    const checkAccountRole = async () => {
+      if (account && isInitialized) {
+        try {
+          const publisher = await isPublisher(account);
+          const advertiser = await isadvertiser(account);
+
+          if (publisher) {
+            console.log("Account is a publisher. Redirecting to /publisher...");
+            navigate('/dashboard/publisher'); // Redirect to /publisher
+          } else if (advertiser) {
+            console.log("Account is an advertiser. Redirecting to /advertiser...");
+            navigate('/dashboard/advertiser'); // Redirect to /advertiser
+          } else {
+            console.log("Account is neither a publisher nor an advertiser. Redirecting to /login/new...");
+            navigate('/login/new'); // Redirect to /login/new
+          }
+        } catch (err) {
+          console.error("Error checking account role:", err);
+          setError('Failed to verify account role.');
+        }
+      }
+    };
+
+    checkAccountRole();
+  }, [account, isPublisher, isadvertiser, isInitialized, navigate]);
+
   const connectWallet = async () => {
     if (window.ethereum) {
       try {
-        // Request accounts from MetaMask
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         const walletAddress = accounts[0];
-        setAccount(walletAddress); // Set the wallet address
-        localStorage.setItem('walletAddress', walletAddress); // Save to localStorage
+        setAccount(walletAddress);
+        localStorage.setItem('walletAddress', walletAddress);
         console.log('Connected account:', walletAddress);
       } catch (err) {
         console.error('Error connecting to MetaMask:', err);
@@ -32,13 +61,12 @@ const ConnectMetaMask = () => {
     }
   };
 
-  // Function to fetch the connected account's balance
   const getBalance = async () => {
     if (account && window.ethereum) {
       try {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const balance = await provider.getBalance(account);
-        const formattedBalance = ethers.utils.formatEther(balance); // Convert balance to Ether
+        const formattedBalance = ethers.utils.formatEther(balance);
         console.log(`Balance of ${account}: ${formattedBalance} ETH`);
         alert(`Balance: ${formattedBalance} ETH`);
       } catch (err) {
@@ -48,7 +76,6 @@ const ConnectMetaMask = () => {
     }
   };
 
-  // MetaMask-themed button styles
   const buttonStyle = {
     backgroundColor: '#F6851B',
     color: 'white',
@@ -66,8 +93,6 @@ const ConnectMetaMask = () => {
     backgroundColor: '#E2761B',
     transform: 'scale(1.05)',
   };
-
-  const [hover, setHover] = useState(false);
 
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
