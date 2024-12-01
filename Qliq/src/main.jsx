@@ -11,9 +11,11 @@ import App from './App';
 import Notfound from './pages/Notfound';
 import Login from './pages/login';
 import Homepage from './pages/Homepage';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 
 const router = createBrowserRouter(
+  
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       {/* Public Routes */}
@@ -24,8 +26,11 @@ const router = createBrowserRouter(
     </Route>
   )
 );
+const GOOGLE_CLIENT_ID = "129623242907-neejh1sq1no1a3stf5khu5h48mkjh67s.apps.googleusercontent.com"
 
 // Render the router provider
 createRoot(document.getElementById('root')).render(
+  <GoogleOAuthProvider clientId = {GOOGLE_CLIENT_ID}>
   <RouterProvider router={router} />
+  </GoogleOAuthProvider>
 );
