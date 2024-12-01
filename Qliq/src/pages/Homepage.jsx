@@ -1,9 +1,10 @@
-import React from 'react'
+import { ArrowRight, Wallet } from 'lucide-react';
+import HeroSection from '../components/hero'
 
-const Homepage = () => {
+export default function Hero() {
   return (
-    <div>Homepage</div>
-  )
+    <>
+    <HeroSection/>
+    </>
+  );
 }
-
-export default Homepage
