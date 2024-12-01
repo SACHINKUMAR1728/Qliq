@@ -1,45 +1,200 @@
-// // /src/context/Web3Context.js
-// import React, { createContext, useContext, useEffect, useState } from 'react';
-// import Web3 from 'web3';
-// import useContractStore from '../store/userContractStore';
+import { create } from 'zustand';
+import { ethers } from 'ethers';
+import abi from '../../abi/web3.json'; // Replace with the correct ABI path
 
-// // Create Web3 Context
-// const Web3Context = createContext();
+// Contract Address
+const contractAddress = "0xf6bdb7b25e92b708fb7cc898aaf77b7e8a0a43ec";
 
-// export const Web3Provider = ({ children }) => {
-//   const [web3, setWeb3] = useState(null);
+// Zustand Store for Contract Interaction
+const useContractStore = create((set) => ({
+  account: 'not connected',
+  contract: null,
+  provider: null,
+  signer: null,
+  network: null,
+  loading: false,
+  error: null,
 
-//   // Initialize web3 and contract once when app loads
-//   useEffect(() => {
-//     const initializeWeb3 = async () => {
-//       if (window.ethereum) {
-//         try {
-//           const web3 = new Web3(window.ethereum);
-//           await window.ethereum.request({ method: 'eth_requestAccounts' });
-          
-//           // Update Zustand store
-//           useContractStore.getState().initialize(web3);
-          
-//           setWeb3(web3); // Set web3 in context
-//         } catch (error) {
-//           console.error('Error initializing Web3:', error);
-//         }
-//       } else {
-//         console.error('Please install MetaMask!');
-//       }
-//     };
+  // Initialize the contract
+  initializeContract: async () => {
+    try {
+      console.log("Initializing contract...");
+      set({ loading: true, error: null });
 
-//     initializeWeb3();
-//   }, []);
+      const { ethereum } = window;
 
-//   return (
-//     <Web3Context.Provider value={{ web3 }}>
-//       {children}
-//     </Web3Context.Provider>
-//   );
-// };
+      if (!ethereum) {
+        console.error("MetaMask is not installed!");
+        throw new Error('MetaMask is not installed. Please install MetaMask and try again.');
+      }
 
-// // Custom hook to access Web3 context
-// export const useWeb3 = () => {
-//   return useContext(Web3Context);
-// };
+      // Request accounts and set the active account
+      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+      const account = accounts[0];
+      console.log(`Connected account: ${account}`);
+
+      // Initialize the provider
+      const provider = new ethers.BrowserProvider(window.ethereum);
+
+      const network = await provider.getNetwork();
+      console.log("Connected to network:", network);
+
+      // Initialize the signer
+      const signer = provider.getSigner();
+      console.log("Signer initialized");
+
+      // Initialize the contract
+      const contract = new ethers.Contract(contractAddress, abi, signer);
+      console.log("Contract initialized:", contract);
+
+      // Listen for account changes
+      ethereum.on('accountsChanged', (accounts) => {
+        if (accounts.length > 0) {
+          console.log("Account changed to:", accounts[0]);
+          set({ account: accounts[0] });
+        } else {
+          console.log("Account disconnected");
+          set({ account: 'not connected' });
+        }
+      });
+
+      // Listen for chain changes
+      ethereum.on('chainChanged', () => {
+        console.log("Chain changed. Reloading...");
+        window.location.reload();
+      });
+
+      // Update the state with initialized values
+      set({ account, provider, signer, contract, network, loading: false, error: null });
+    } catch (error) {
+      console.error("Error during contract initialization:", error);
+      set({ error: error.message, loading: false });
+    }
+  },
+
+  // Contract function: createAdvertiser
+  createAdvertiser: async (advertiser, cid) => {
+    try {
+      const { contract } = get();
+      const tx = await contract.createAdvertiser(advertiser, cid);
+      console.log("Transaction sent:", tx.hash);
+      await tx.wait();
+      console.log("Transaction confirmed:", tx);
+    } catch (error) {
+      console.error("Error calling createAdvertiser:", error);
+      set({ error: error.message });
+    }
+  },
+
+  // Contract function: createPublisher
+  createPublisher: async (publisher, cid) => {
+    try {
+      const { contract } = get();
+      const tx = await contract.createPublisher(publisher, cid);
+      console.log("Transaction sent:", tx.hash);
+      await tx.wait();
+      console.log("Transaction confirmed:", tx);
+    } catch (error) {
+      console.error("Error calling createPublisher:", error);
+      set({ error: error.message });
+    }
+  },
+
+  // Contract function: deposit
+  deposit: async (amount) => {
+    try {
+      const { contract } = get();
+      const tx = await contract.deposit({ value: ethers.utils.parseEther(amount.toString()) });
+      console.log("Transaction sent:", tx.hash);
+      await tx.wait();
+      console.log("Transaction confirmed:", tx);
+    } catch (error) {
+      console.error("Error calling deposit:", error);
+      set({ error: error.message });
+    }
+  },
+
+  // Contract function: requestPayment
+  requestPayment: async (amount) => {
+    try {
+      const { contract } = get();
+      const tx = await contract.requestPayment(amount);
+      console.log("Transaction sent:", tx.hash);
+      await tx.wait();
+      console.log("Transaction confirmed:", tx);
+    } catch (error) {
+      console.error("Error calling requestPayment:", error);
+      set({ error: error.message });
+    }
+  },
+
+  // Contract function: transferPayment
+  transferPayment: async (user, amount) => {
+    try {
+      const { contract } = get();
+      const tx = await contract.transferPayment(user, amount);
+      console.log("Transaction sent:", tx.hash);
+      await tx.wait();
+      console.log("Transaction confirmed:", tx);
+    } catch (error) {
+      console.error("Error calling transferPayment:", error);
+      set({ error: error.message });
+    }
+  },
+
+  // Contract function: updateAdvertiserCid
+  updateAdvertiserCid: async (advertiser, newCid) => {
+    try {
+      const { contract } = get();
+      const tx = await contract.updateAdvertiserCid(advertiser, newCid);
+      console.log("Transaction sent:", tx.hash);
+      await tx.wait();
+      console.log("Transaction confirmed:", tx);
+    } catch (error) {
+      console.error("Error calling updateAdvertiserCid:", error);
+      set({ error: error.message });
+    }
+  },
+
+  // Contract function: updatePublisherCid
+  updatePublisherCid: async (publisher, newCid) => {
+    try {
+      const { contract } = get();
+      const tx = await contract.updatePublisherCid(publisher, newCid);
+      console.log("Transaction sent:", tx.hash);
+      await tx.wait();
+      console.log("Transaction confirmed:", tx);
+    } catch (error) {
+      console.error("Error calling updatePublisherCid:", error);
+      set({ error: error.message });
+    }
+  },
+
+  // Contract view function: getCidOfAdvertiser
+  getCidOfAdvertiser: async (advertiser) => {
+    try {
+      const { contract } = get();
+      const cid = await contract.getCidOfAdvertiser(advertiser);
+      console.log("CID of advertiser:", cid);
+      return cid;
+    } catch (error) {
+      console.error("Error calling getCidOfAdvertiser:", error);
+      set({ error: error.message });
+    }
+  },
+
+  // Contract view function: getCidOfPublisher
+  getCidOfPublisher: async (publisher) => {
+    try {
+      const { contract } = get();
+      const cid = await contract.getCidOfPublisher(publisher);
+      console.log("CID of publisher:", cid);
+      return cid;
+    } catch (error) {
+      console.error("Error calling getCidOfPublisher:", error);
+      set({ error: error.message });
+    }
+  },
+}));
+
+export default useContractStore;
