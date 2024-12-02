@@ -16,12 +16,12 @@ const Notfound = () => {
           The page you're looking for doesn't exist or might have been moved. But don't worry, we'll get you back on track.
         </p>
 
-        <button
-          onClick={goHome}
+        {/* <button
+          onClick={}
           className="px-8 py-4 text-lg font-semibold rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 hover:opacity-90 transition-all shadow-lg transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-opacity-50"
         >
           Go Back Home
-        </button>
+        </button> */}
       </div>
     </div>
   );

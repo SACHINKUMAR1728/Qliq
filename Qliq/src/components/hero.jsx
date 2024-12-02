@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from '../components/Navbar'; // Adjust the path as per your folder structure
+import Navbar from '../components/navbar'; // Adjust the path as per your folder structure
 import FeaturesSection from '../components/features'; // Adjust the path as per your folder structure
 import HowItWorks from '../components/howItWorks'; // Adjust the path as per your folder structure
 import Capabilities from './capabilities';

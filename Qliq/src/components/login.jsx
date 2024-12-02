@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import useContractStore from "../context/Web3Context";
 import { createIPFS } from "../function/IPFS";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
-  const { createPublisher, createAdvertiser } = useContractStore();
+  const { createPublisher, createAdvertiser,account } = useContractStore();
   const [selectedRole, setSelectedRole] = useState("advertiser");
   const [formData, setFormData] = useState({
     name: "",
@@ -15,13 +16,10 @@ const LoginForm = () => {
     websiteDescription: "",
   });
   const [selectedTags, setSelectedTags] = useState([]);
-  const [walletAddress, setWalletAddress] = useState("");
-
-  useEffect(() => {
-    // Fetch wallet address from localStorage
-    const storedWalletAddress = localStorage.getItem("walletAddress");
-    setWalletAddress(storedWalletAddress || "0xDefaultWalletAddress");
-  }, []);
+  const [walletAddress, setWalletAddress] = useState(account);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleRoleChange = (role) => {
     setSelectedRole(role);
@@ -75,14 +73,13 @@ const LoginForm = () => {
       return;
     }
 
-    // Get current timestamps
     const currentTime = new Date().toISOString();
 
     // Generate data based on role
     let submissionData;
     if (selectedRole === "advertiser") {
       submissionData = {
-        advertiser_wallet_address: walletAddress,
+        advertiser_wallet_address: account,
         advertiser_details: {
           name: formData.name,
           contact_email: formData.email,
@@ -94,10 +91,9 @@ const LoginForm = () => {
       };
     } else if (selectedRole === "publisher") {
       submissionData = {
-        publisher_wallet_address: walletAddress,
-        WebsiteID: uuidv4(), // Generate random UUID
-        WebsiteDescription:
-          formData.websiteDescription || "No description provided",
+        publisher_wallet_address: account,
+        WebsiteID: uuidv4(),
+        WebsiteDescription: formData.websiteDescription || "No description provided",
         Tags: selectedTags,
         publisher_details: {
           name: formData.name,
@@ -113,18 +109,26 @@ const LoginForm = () => {
     }
 
     try {
-      // Send POST request to AWS Lambda endpoint
+      setLoading(true); // Set loading state to true
       const ipfsHash = await createIPFS(submissionData);
+
+      // Handle the contract creation based on role
       if (selectedRole === "advertiser") {
+        //check content and type of walletaddress and ipfshash
+        console.log("Wallet Address: ", walletAddress);
+        console.log("IPFS Hash: ", ipfsHash);
+
         await createAdvertiser(walletAddress, ipfsHash);
-        window.location.href = "/dashboard/advertiser";
+        navigate("/dashboard/advertiser"); // Navigate without reloading
       } else if (selectedRole === "publisher") {
         await createPublisher(walletAddress, ipfsHash);
-        window.location.href = "/dashboard/publisher";
+        navigate("/dashboard/publisher"); // Navigate without reloading
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("An error occurred. Please try again.");
+      setError("An error occurred. Please try again.");
+    } finally {
+      setLoading(false); // Set loading state to false
     }
   };
 
@@ -231,7 +235,7 @@ const LoginForm = () => {
                 <input
                   id="websiteUrl"
                   name="websiteUrl"
-                  type="url"
+                  type="text"
                   value={formData.websiteUrl}
                   onChange={handleInputChange}
                   placeholder="Enter your website URL"
@@ -246,10 +250,9 @@ const LoginForm = () => {
                   name="websiteDescription"
                   value={formData.websiteDescription}
                   onChange={handleInputChange}
-                  placeholder="Enter a brief description"
+                  placeholder="Enter a brief description of your website"
                   className="w-full px-4 py-2 text-white bg-[#11222C]"
-                  rows="3"
-                ></textarea>
+                />
               </div>
               <div>
                 <label className="block mb-2 text-gray-300">Select Website Tag(s)</label>
@@ -274,10 +277,14 @@ const LoginForm = () => {
           <button
             type="submit"
             className="w-full py-3 text-lg font-semibold text-white transition-all rounded-lg bg-gradient-to-r from-teal-500 to-emerald-500 hover:opacity-90"
+            disabled={loading}
           >
-            Signup
+            {loading ? "Processing..." : "Signup"}
           </button>
         </form>
+
+        {/* Display Error Message */}
+        {error && <p className="text-red-500 text-center mt-4">{error}</p>}
       </div>
     </div>
   );

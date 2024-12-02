@@ -1,8 +1,10 @@
 import React from "react";
-import { FaHome, FaBullhorn, FaChartLine, FaCog } from "react-icons/fa";
+import { FaHome, FaChartLine, FaCog } from "react-icons/fa";
+import { MdOutlineDescription } from "react-icons/md";
+
 import { Link } from "react-router-dom";
 
-const Sidebar = () => {
+const Sidebarpub = () => {
   return (
     <div className="flex flex-col h-screen px-6 py-8 text-white bg-gradient-to-b from-[#11222C] via-[#0E403E] to-[#131321] shadow-xl border border-teal-500/30 rounded-lg">
       {/* Sidebar Header */}
@@ -25,11 +27,11 @@ const Sidebar = () => {
           </li>
           </Link>
           {/* Campaigns */}
-          <Link to={"/dashboard/advertiser/list"}>
+          <Link to={"/dashboard/publisher/scripts"}>
           <li className="flex items-center gap-4 p-4 transition-colors rounded-lg cursor-pointer group bg-gradient-to-r from-transparent to-gray-700/10 hover:bg-teal-500/20">
-            <FaBullhorn className="w-6 h-6 text-teal-400 transition-transform group-hover:scale-110" />
+            <MdOutlineDescription className="w-6 h-6 text-teal-400 transition-transform group-hover:scale-110" />
             <span className="text-lg font-medium transition-colors group-hover:text-white">
-              Campaigns
+              Scripts
             </span>
           </li>
           </Link>
@@ -60,4 +62,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default Sidebarpub;
