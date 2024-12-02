@@ -37,17 +37,28 @@ async function serveAd(req, res) {
         const nftData = await nftResponse.json();
         console.log('NFT Data:', nftData);
 
-        // Extract tags directly from NFT data
-        console.log('Extracting Tags from NFT Data...');
+        // Extract tags directly from NFT data and descriptions
+        console.log('Extracting Tags from NFT Data and Descriptions...');
         const extractedTags = nftData.reduce((acc, nft) => {
+            // Extract tags directly
             if (Array.isArray(nft.tags)) {
                 acc.push(...nft.tags);
             }
+
+            // Extract tags from descriptions
+            if (nft.description) {
+                const descriptionWords = nft.description
+                    .split(/\s+/)
+                    .map(word => word.toLowerCase().replace(/[^a-z0-9]/g, '')); // Normalize words
+                const matchingTags = descriptionWords.filter(word => publisherTags.includes(word));
+                acc.push(...matchingTags);
+            }
+
             return acc;
         }, []);
         console.log('Extracted Tags:', extractedTags);
 
-        // Combine publisher tags and user NFT tags
+        // Combine publisher tags and user NFT tags including extracted tags from descriptions
         const combinedTags = new Set([...publisherTags, ...extractedTags]);
         console.log('Combined Tags:', Array.from(combinedTags));
 
