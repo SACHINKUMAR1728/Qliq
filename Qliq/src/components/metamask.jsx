@@ -73,14 +73,14 @@ const ConnectMetaMask = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-[#131321] via-[#0E403E] to-[#11222C] overflow-hidden flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-6 text-center">
+      <div className="max-w-md w-full bg-[#0E403E] rounded-xl shadow-lg border border-teal-500/30 p-6 text-center">
         <img
           src="https://res.cloudinary.com/do5e8qwxk/image/upload/v1733082257/MetaMask_Fox.svg_lw0agx.webp"
           alt="MetaMask Logo"
           className="mx-auto mb-4 w-24 h-24"
         />
-        <h1 className="text-4xl font-semibold text-gray-800 mb-6">Connect Your MetaMask Wallet</h1>
-        <p className="text-lg text-gray-500 mb-8">
+        <h1 className="text-4xl font-semibold text-white mb-6">Connect Your MetaMask Wallet</h1>
+        <p className="text-lg text-white mb-8">
           Unlock the world of decentralized finance by connecting your MetaMask wallet. It's quick, easy, and secure!
         </p>
         

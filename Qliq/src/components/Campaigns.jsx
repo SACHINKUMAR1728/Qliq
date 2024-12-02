@@ -10,22 +10,23 @@ const Campaigns = () => {
   return (
     <div className="w-full max-w-screen-xl overflow-hidden p-6 text-center rounded-lg shadow-lg bg-gradient-to-r from-[#131321] via-[#0E403E] to-[#11222C]">
       <h2 className="text-2xl font-semibold text-white">Campaigns</h2>
-      <p className="mt-2 text-gray-100">Manage and track your campaigns.</p>
-      <button className="px-4 py-2 mt-4 text-white bg-teal-600 rounded-md hover:bg-teal-700">
-        View Campaigns
-      </button>
 
       {/* Campaign List */}
-      <div className="mt-6 space-y-4">
+      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
         {campaigns.map((campaign, index) => (
           <div
             key={index}
-            className="flex items-center justify-between p-4 bg-teal-600 text-white rounded-lg shadow-md hover:bg-teal-700 transition-colors duration-300  text-center"
+            className="flex items-center justify-center p-4 bg-teal-700 bg-opacity-50 text-white rounded-lg shadow-lg hover:bg-teal-800 hover:bg-opacity-70 transition-colors duration-300 w-full h-48"
           >
-            <div className=" w-full text-lg font-medium text-center">{campaign}</div>
+            <div className="text-lg font-medium text-center">{campaign}</div>
           </div>
         ))}
       </div>
+
+      {/* View All Button */}
+      <button className="px-4 py-2 mt-5 text-white bg-teal-600 rounded-md hover:bg-teal-700">
+        View All Campaigns
+      </button>
     </div>
   );
 };
