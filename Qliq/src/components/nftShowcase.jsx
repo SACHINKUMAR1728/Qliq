@@ -20,7 +20,7 @@ const NftShowcase = () => {
   }, []);
 
   return (
-    <div className="py-24 bg-gradient-to-r from-[#131321] via-[#0E403E] to-[#11222C] overflow-hidden">
+    <div className="py-24 bg-gradient-to-r from-[#000000]  to-[#11222C] overflow-hidden">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="mb-16 text-center">
           <h2 className="mb-4 text-4xl font-bold text-white">
