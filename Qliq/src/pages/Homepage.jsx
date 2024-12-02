@@ -26,17 +26,7 @@ export default function Homepage() {
   return (
     <>
       <HeroSection />
-      <div style={{ marginTop: '20px', textAlign: 'center' }}>
-        {loading || !isInitialized ? (
-          <p>Initializing contract... Please wait.</p>
-        ) : error ? (
-          <p style={{ color: 'red' }}>Error: {error}</p>
-        ) : (
-          <div>
-            <p>Is Publisher: {isPublisherAccount ? 'Yes' : 'No'}</p>
-          </div>
-        )}
-      </div>
+      
     </>
   );
 }
