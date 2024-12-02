@@ -18,7 +18,6 @@ async function serveAd(req, res) {
 
         // Fetch publisher data
         console.log('Fetching Publisher Data from IPFS...');
-        console.log(publisherCid);
         const publisherData = await fetchJsonFromIpfs(publisherCid);
         const publisherTags = Array.isArray(publisherData.Tags) ? publisherData.Tags : [];
         console.log('Publisher Tags:', publisherTags);
@@ -55,7 +54,6 @@ async function serveAd(req, res) {
         // Fetch active ads data
         console.log('Fetching Active Ads Data from IPFS...');
         const adsData = await fetchJsonFromIpfs(activeAdsCid);
-        console.log(adsData)
         const activeAssets = Array.isArray(adsData.assets) ? adsData.assets : [];
         console.log('Active Ads:', activeAssets);
 
@@ -88,6 +86,33 @@ async function serveAd(req, res) {
 
         if (bestAd) {
             console.log('Ad to be served:', bestAd);
+
+            // Record impression for Publisher
+            console.log('Recording Publisher Impression...');
+            await fetch('https://c316tf2op8.execute-api.ap-south-1.amazonaws.com/hh', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    collection_name: "publisher",
+                    websiteid: websiteid,
+                    timestamp: new Date().toISOString(),
+                    event_type: "impression",
+                }),
+            });
+
+            // Record impression for Advertiser
+            console.log('Recording Advertiser Impression...');
+            await fetch('https://c316tf2op8.execute-api.ap-south-1.amazonaws.com/hh', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    collection_name: "advertiser",
+                    advertiser: "0xc484FeAf91DE9Eb965c3C0B31425cA9ce8C744e9",
+                    ad_id: bestAd.asset_id,
+                    timestamp: new Date().toISOString(),
+                    event_type: "impression",
+                }),
+            });
 
             // Generate HTML response
             const htmlContent = `
