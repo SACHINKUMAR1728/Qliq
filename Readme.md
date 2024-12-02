@@ -2,7 +2,7 @@
 *Target users based on their NFT collections and empower Web3 platforms with innovative monetization solutions.*
 
 ### **Project Link:**  
-[https://qliqunfold24.pages.dev/](#) *(Project Link)*
+[https://qliqunfold24.pages.dev/]
 
 ---
 
