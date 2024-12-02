@@ -1,12 +1,25 @@
 import express from 'express';
 import {serveAd} from './functions/serve.js';
-import { contract } from './functions/contract.js';
+import {
+  getCidOfAdvertiser,
+  getCidOfPublisher,
+  isAdvertiser,
+  isPublisher,
+  getOwner,
+  createAdvertiser,
+  createPublisher,
+  deposit,
+  requestPayment,
+  transferPayment,
+  updateAdvertiserCid,
+  updatePublisherCid,
+  withdrawReward
+} from "./functions/contract.js"
 const app = express();
 const port = 3000;
 
-const result = await contract;
 
- app.get('/:websiteid/serve/:variable', serveAd);
+ app.get('/:websiteid/serve/:walletaddress', serveAd);
 
  app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
