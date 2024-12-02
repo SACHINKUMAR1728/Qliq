@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import { fetchJsonFromIpfs } from '../functions/fetchcid.js';
-import { getActiveAds } from './contract.js';
+import { getCidOfAdvertiser } from './contract.js';
 
 async function serveAd(req, res) {
     const { websiteid, walletaddress } = req.params;
@@ -11,14 +11,14 @@ async function serveAd(req, res) {
         // Retrieve Publisher CID and Active Ads CID
         console.log('Retrieving Publisher CID and Active Ads CID...');
         const publisherCid = websiteid;
-        const activeAdsCid = await getActiveAds();
+        const activeAdsCid = await getCidOfAdvertiser("0xc484FeAf91DE9Eb965c3C0B31425cA9ce8C744e9");
 
         console.log(`Publisher CID: ${publisherCid}`);
         console.log(`Active Ads CID: ${activeAdsCid}`);
 
         // Fetch publisher data
         console.log('Fetching Publisher Data from IPFS...');
-        console.log(publisherCid)
+        console.log(publisherCid);
         const publisherData = await fetchJsonFromIpfs(publisherCid);
         const publisherTags = Array.isArray(publisherData.Tags) ? publisherData.Tags : [];
         console.log('Publisher Tags:', publisherTags);
@@ -55,7 +55,8 @@ async function serveAd(req, res) {
         // Fetch active ads data
         console.log('Fetching Active Ads Data from IPFS...');
         const adsData = await fetchJsonFromIpfs(activeAdsCid);
-        const activeAssets = Array.isArray(adsData.active_assets) ? adsData.active_assets : [];
+        console.log(adsData)
+        const activeAssets = Array.isArray(adsData.assets) ? adsData.assets : [];
         console.log('Active Ads:', activeAssets);
 
         // Function to calculate the number of matching tags
@@ -79,8 +80,14 @@ async function serveAd(req, res) {
             }
         }
 
+        // If no matching ad is found, select a random ad
+        if (!bestAd && activeAssets.length > 0) {
+            console.log('No matching ad found. Selecting a random ad.');
+            bestAd = activeAssets[Math.floor(Math.random() * activeAssets.length)];
+        }
+
         if (bestAd) {
-            console.log('Best Ad Selected:', bestAd);
+            console.log('Ad to be served:', bestAd);
 
             // Generate HTML response
             const htmlContent = `
@@ -91,8 +98,8 @@ async function serveAd(req, res) {
             `;
             res.send(htmlContent);
         } else {
-            console.log('No Matching Advertisement Found.');
-            res.status(404).send('No matching advertisement found.');
+            console.log('No Ads Available to Serve.');
+            res.status(404).send('No advertisements available.');
         }
 
         console.log('=== Advertisement Selection Process Completed ===');

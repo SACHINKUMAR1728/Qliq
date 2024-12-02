@@ -117,10 +117,10 @@ const CampaignForm = () => {
         };
 
         // Upload updated active ads to IPFS
-        const newActiveAdsCid = await createIPFS(updatedActiveAds);
+      //  const newActiveAdsCid = await createIPFS(updatedActiveAds);
 
         // Update active ads CID
-        await updateactiveadcid(newActiveAdsCid);
+      //  await updateactiveadcid(newActiveAdsCid);
 
         setButtonText("Ad Created");
         navigate("/dashboard/advertiser/list");
