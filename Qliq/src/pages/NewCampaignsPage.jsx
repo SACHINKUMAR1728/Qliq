@@ -7,7 +7,7 @@ import { createIPFS } from "../function/IPFS.js";
 import { useNavigate } from 'react-router-dom';
 
 const CampaignForm = () => {
-  const { account, getCidOfAdvertiser, updateAdvertiserCid, deposit } = useContractStore();
+  const { account, getCidOfAdvertiser, updateAdvertiserCid, deposit, getcidofactiveads, updateactiveadcid } = useContractStore();
   const [formData, setFormData] = useState({
     campaignName: "",
     budgetValue: "",
@@ -101,8 +101,27 @@ const CampaignForm = () => {
       try {
         await deposit(newAsset.analytics.spend.amount);
         setButtonText("Creating Ad...");
-        const newCid = await createIPFS(updatedAd);
-        await updateAdvertiserCid(account, newCid);
+
+        // Update advertiser data on IPFS
+        const newAdvertiserCid = await createIPFS(updatedAd);
+        await updateAdvertiserCid(account, newAdvertiserCid);
+
+        // Fetch current active ads data
+        const activeAdsCid = await getcidofactiveads();
+        const activeAdsData = await fetchJsonFromIpfs(activeAdsCid);
+
+        // Append new asset to active ads
+        const updatedActiveAds = {
+          ...activeAdsData,
+          assets: [newAsset, ...activeAdsData.assets],
+        };
+
+        // Upload updated active ads to IPFS
+        const newActiveAdsCid = await createIPFS(updatedActiveAds);
+
+        // Update active ads CID
+        await updateactiveadcid(newActiveAdsCid);
+
         setButtonText("Ad Created");
         navigate("/dashboard/advertiser/list");
       } catch (error) {

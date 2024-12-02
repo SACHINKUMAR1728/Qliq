@@ -21,7 +21,7 @@ export default function Homepage() {
     };
 
     setup();
-  }, [isPublisher, account, isInitialized]); // Add isInitialized to dependencies
+  }, [isPublisher, account, isInitialized]);  
 
   return (
     <>
