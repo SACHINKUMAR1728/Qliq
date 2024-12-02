@@ -61,6 +61,11 @@ const Campaigns = () => {
           ))}
         </div>
       </div>
+
+      {/* View All Button */}
+      <button className="px-4 py-2 mt-5 text-white bg-teal-600 rounded-md hover:bg-teal-700">
+        View All Campaigns
+      </button>
     </div>
   );
 };

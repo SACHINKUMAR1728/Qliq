@@ -1,0 +1,48 @@
+---
+import type { Post } from '../data/posts';
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+---
+
+<article class="bg-card-bg rounded-lg overflow-hidden transform hover:scale-102 transition-all duration-300 shadow-xl hover:shadow-gaming-blue/20">
+  <a href={`/post/${post.id}`} class="block">
+    <div class="relative">
+      <img 
+        src={post.image} 
+        alt={post.title} 
+        class="w-full h-64 object-cover transition-transform duration-300 hover:scale-105" 
+      />
+      <div class="absolute top-4 right-4 bg-gaming-blue/90 text-white text-sm px-3 py-1 rounded-full">
+        {post.category}
+      </div>
+    </div>
+    <div class="p-6">
+      <div class="flex items-center gap-4 mb-4">
+        <img 
+          src={post.authorImage} 
+          alt={post.author} 
+          class="w-10 h-10 rounded-full object-cover border-2 border-gaming-blue" 
+        />
+        <div>
+          <p class="text-white font-medium">{post.author}</p>
+          <p class="text-gray-400 text-sm">{post.date} · {post.readTime}</p>
+        </div>
+      </div>
+      <h2 class="text-2xl font-bold text-white mb-3 line-clamp-2 hover:text-gaming-blue transition-colors">
+        {post.title}
+      </h2>
+      <p class="text-gray-400 mb-4 line-clamp-3">{post.excerpt}</p>
+      <div class="flex gap-2 flex-wrap">
+        {post.tags.map(tag => (
+          <span class="text-sm px-3 py-1 bg-gaming-blue/10 text-gaming-blue rounded-full hover:bg-gaming-blue/20 transition-colors">
+            {tag}
+          </span>
+        ))}
+      </div>
+    </div>
+  </a>
+</article>
