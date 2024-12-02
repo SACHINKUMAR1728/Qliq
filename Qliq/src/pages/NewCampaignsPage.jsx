@@ -25,6 +25,7 @@ const CampaignForm = () => {
     { label: "Esports", value: "esports" },
     { label: "DAO", value: "dao" },
     { label: "DApp", value: "dapp" },
+    {label: "Web3", value: "web3"}
     // Add more tags as needed
   ];
 
@@ -117,10 +118,10 @@ const CampaignForm = () => {
         };
 
         // Upload updated active ads to IPFS
-        const newActiveAdsCid = await createIPFS(updatedActiveAds);
+      //  const newActiveAdsCid = await createIPFS(updatedActiveAds);
 
         // Update active ads CID
-        await updateactiveadcid(newActiveAdsCid);
+      //  await updateactiveadcid(newActiveAdsCid);
 
         setButtonText("Ad Created");
         navigate("/dashboard/advertiser/list");

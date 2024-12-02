@@ -1,5 +1,4 @@
-const { ethers } = require("ethers");
-
+import ethers from "ethers"
 
 const CONTRACT_ADDRESS = "0xFc4F6F2b7EC0935B7Bb7FAc81B015A2aD3AcDb0e";
 const ABI = [
@@ -372,175 +371,151 @@ const ABI = [
 		"type": "function"
 	}
 ];
+const provider = new ethers.providers.JsonRpcProvider("https://sepolia.infura.io/v3/7976187ac95f438fbba371d7e9ce487e");
+const privateKey = "4ed69c3bd90e70270dd2e25189a94ab7666d8b0694b19008112febfdc721ce4d";
+const wallet = new ethers.Wallet(privateKey, provider);
+const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, wallet);
 
-async function main() {
-    const provider = new ethers.providers.JsonRpcProvider("https://sepolia.infura.io/v3/7976187ac95f438fbba371d7e9ce487e");
+console.log("Contract initialized");
 
-    const privateKey = "4ed69c3bd90e70270dd2e25189a94ab7666d8b0694b19008112febfdc721ce4d";
-    const wallet = new ethers.Wallet(privateKey, provider);
-
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, wallet);
-    console.log("Contract initialized");
-
-    // Functions for contract interaction
-
-    // Get CID of Advertiser
-    async function getCidOfAdvertiser(advertiserAddress) {
-        try {
-            const cid = await contract.getCidOfAdvertiser(advertiserAddress);
-            console.log(`CID of Advertiser: ${cid}`);
-        } catch (error) {
-            console.error("Error getting CID of advertiser:", error);
-        }
-    }
-
-    // Get CID of Publisher
-    async function getCidOfPublisher(publisherAddress) {
-        try {
-            const cid = await contract.getCidOfPublisher(publisherAddress);
-            console.log(`CID of Publisher: ${cid}`);
-        } catch (error) {
-            console.error("Error getting CID of publisher:", error);
-        }
-    }
-
-    // Check if user is an Advertiser
-    async function isAdvertiser(userAddress) {
-        try {
-            const result = await contract.isAdvertiser(userAddress);
-            console.log(`Is Advertiser: ${result}`);
-        } catch (error) {
-            console.error("Error checking advertiser:", error);
-        }
-    }
-
-    // Check if user is a Publisher
-    async function isPublisher(userAddress) {
-        try {
-            const result = await contract.isPublisher(userAddress);
-            console.log(`Is Publisher: ${result}`);
-        } catch (error) {
-            console.error("Error checking publisher:", error);
-        }
-    }
-
-    // Get contract owner
-    async function getOwner() {
-        try {
-            const owner = await contract.owner();
-            console.log(`Owner: ${owner}`);
-        } catch (error) {
-            console.error("Error getting owner:", error);
-        }
-    }
-
-    // Create Advertiser
-    async function createAdvertiser(advertiserAddress, cid) {
-        try {
-            const tx = await contract.createAdvertiser(advertiserAddress, cid);
-            console.log(`Transaction hash: ${tx.hash}`);
-            await tx.wait();
-            console.log("Advertiser created successfully");
-        } catch (error) {
-            console.error("Error creating advertiser:", error);
-        }
-    }
-
-    // Create Publisher
-    async function createPublisher(publisherAddress, cid) {
-        try {
-            const tx = await contract.createPublisher(publisherAddress, cid);
-            console.log(`Transaction hash: ${tx.hash}`);
-            await tx.wait();
-            console.log("Publisher created successfully");
-        } catch (error) {
-            console.error("Error creating publisher:", error);
-        }
-    }
-
-    // Deposit funds
-    async function deposit(amount) {
-        try {
-            const tx = await contract.deposit({ value: ethers.utils.parseEther(amount.toString()) });
-            console.log(`Transaction hash: ${tx.hash}`);
-            await tx.wait();
-            console.log("Deposit successful");
-        } catch (error) {
-            console.error("Error depositing funds:", error);
-        }
-    }
-
-    // Request Payment
-    async function requestPayment(amount) {
-        try {
-            const tx = await contract.requestPayment(amount);
-            console.log(`Transaction hash: ${tx.hash}`);
-            await tx.wait();
-            console.log("Payment requested successfully");
-        } catch (error) {
-            console.error("Error requesting payment:", error);
-        }
-    }
-
-    // Transfer Payment
-    async function transferPayment(userAddress, amount) {
-        try {
-            const tx = await contract.transferPayment(userAddress, amount);
-            console.log(`Transaction hash: ${tx.hash}`);
-            await tx.wait();
-            console.log("Payment transferred successfully");
-        } catch (error) {
-            console.error("Error transferring payment:", error);
-        }
-    }
-
-    // Update Advertiser CID
-    async function updateAdvertiserCid(advertiserAddress, newCid) {
-        try {
-            const tx = await contract.updateAdvertiserCid(advertiserAddress, newCid);
-            console.log(`Transaction hash: ${tx.hash}`);
-            await tx.wait();
-            console.log("Advertiser CID updated successfully");
-        } catch (error) {
-            console.error("Error updating advertiser CID:", error);
-        }
-    }
-
-    // Update Publisher CID
-    async function updatePublisherCid(publisherAddress, newCid) {
-        try {
-            const tx = await contract.updatePublisherCid(publisherAddress, newCid);
-            console.log(`Transaction hash: ${tx.hash}`);
-            await tx.wait();
-            console.log("Publisher CID updated successfully");
-        } catch (error) {
-            console.error("Error updating publisher CID:", error);
-        }
-    }
-
-    // Withdraw Reward
-    async function withdrawReward() {
-        try {
-            const tx = await contract.withdrawReward();
-            console.log(`Transaction hash: ${tx.hash}`);
-            await tx.wait();
-            console.log("Reward withdrawn successfully");
-        } catch (error) {
-            console.error("Error withdrawing reward:", error);
-        }
-    }
-
-    // Test example usage
-    const advertiserAddress = wallet.address;
-    const cid = "exampleCID";
-    await getOwner();
-    await createAdvertiser(advertiserAddress, cid);
-    await getCidOfAdvertiser(advertiserAddress);
+export async function getCidOfAdvertiser(advertiserAddress) {
+  try {
+    return await contract.getCidOfAdvertiser(advertiserAddress);
+  } catch (error) {
+    console.error("Error getting CID of advertiser:", error);
+    throw error;
+  }
 }
 
-main()
-    .then(() => process.exit(0))
-    .catch((error) => {
-        console.error(error);
-        process.exit(1);
-    });
+export async function getCidOfPublisher(publisherAddress) {
+  try {
+    return await contract.getCidOfPublisher(publisherAddress);
+  } catch (error) {
+    console.error("Error getting CID of publisher:", error);
+    throw error;
+  }
+}
+
+export async function isAdvertiser(userAddress) {
+  try {
+    return await contract.isAdvertiser(userAddress);
+  } catch (error) {
+    console.error("Error checking if user is an advertiser:", error);
+    throw error;
+  }
+}
+
+export async function isPublisher(userAddress) {
+  try {
+    return await contract.isPublisher(userAddress);
+  } catch (error) {
+    console.error("Error checking if user is a publisher:", error);
+    throw error;
+  }
+}
+
+export async function getOwner() {
+  try {
+    return await contract.owner();
+  } catch (error) {
+    console.error("Error fetching contract owner:", error);
+    throw error;
+  }
+}
+
+export async function createAdvertiser(advertiserAddress, cid) {
+  try {
+    const tx = await contract.createAdvertiser(advertiserAddress, cid);
+    await tx.wait();
+    return tx;
+  } catch (error) {
+    console.error("Error creating advertiser:", error);
+    throw error;
+  }
+}
+
+export async function createPublisher(publisherAddress, cid) {
+  try {
+    const tx = await contract.createPublisher(publisherAddress, cid);
+    await tx.wait();
+    return tx;
+  } catch (error) {
+    console.error("Error creating publisher:", error);
+    throw error;
+  }
+}
+
+export async function deposit(amount) {
+  try {
+    const tx = await contract.deposit({ value: ethers.utils.parseEther(amount.toString()) });
+    await tx.wait();
+    return tx;
+  } catch (error) {
+    console.error("Error depositing funds:", error);
+    throw error;
+  }
+}
+
+export async function requestPayment(amount) {
+  try {
+    const tx = await contract.requestPayment(amount);
+    await tx.wait();
+    return tx;
+  } catch (error) {
+    console.error("Error requesting payment:", error);
+    throw error;
+  }
+}
+
+export async function transferPayment(userAddress, amount) {
+  try {
+    const tx = await contract.transferPayment(userAddress, amount);
+    await tx.wait();
+    return tx;
+  } catch (error) {
+    console.error("Error transferring payment:", error);
+    throw error;
+  }
+}
+
+export async function updateAdvertiserCid(advertiserAddress, newCid) {
+  try {
+    const tx = await contract.updateAdvertiserCid(advertiserAddress, newCid);
+    await tx.wait();
+    return tx;
+  } catch (error) {
+    console.error("Error updating advertiser CID:", error);
+    throw error;
+  }
+}
+
+export async function updatePublisherCid(publisherAddress, newCid) {
+  try {
+    const tx = await contract.updatePublisherCid(publisherAddress, newCid);
+    await tx.wait();
+    return tx;
+  } catch (error) {
+    console.error("Error updating publisher CID:", error);
+    throw error;
+  }
+}
+
+export async function getActiveAds() {
+  try {
+    return await contract.getActiveAds();
+  } catch (error) {
+    console.error("Error fetching active ads CID:", error);
+    throw error;
+  }
+}
+
+export async function withdrawReward() {
+  try {
+    const tx = await contract.withdrawReward();
+    await tx.wait();
+    return tx;
+  } catch (error) {
+    console.error("Error withdrawing reward:", error);
+    throw error;
+  }
+}
