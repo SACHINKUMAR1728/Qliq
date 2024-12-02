@@ -15,3 +15,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #111827;
 }
+.x{
+  background-image: url('https://tk-storage.s3.ap-southeast-1.amazonaws.com/host/ckeditor/Fo46odWAAg3Vzq_20230215061229.jpg');
+  background-size: cover;
+  background-position: center;
+}
