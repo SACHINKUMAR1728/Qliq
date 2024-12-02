@@ -128,6 +128,7 @@ const CampaignForm = () => {
       } catch (error) {
         console.error("Error during ad creation process:", error);
         setButtonText("Error! Try Again");
+        navigate("/dashboard/advertiser/list");
       }
     } else {
       console.error("Advertiser data is not loaded yet.");
