@@ -2,7 +2,7 @@
 *Target users based on their NFT collections and empower Web3 platforms with innovative monetization solutions.*
 
 ### **Project Link:**  
-[QliQ-Web3 Ad Network:](#) *(Project Link)*
+[https://qliqunfold24.pages.dev/](#) *(Project Link)*
 
 ---
 
@@ -38,7 +38,6 @@ This project uses the following technologies:
   - JavaScript
   - React
   - Tailwind CSS
-  - JSX
   - Metamask Integration
 
 - **Backend**:
@@ -52,27 +51,23 @@ This project uses the following technologies:
   - ThirdWeb
   - Sepolia Testnet
 
-- **Testing**:
-  - Jest (for frontend and backend testing)
+
 
 ---
 
 ## **Challenges Faced**
 During the development of **QliQ**, we came across a few challenges that we had to overcome:
 
-1. **MetaMask Wallet Integration**:  
-   Integrating MetaMask for wallet authentication and connectivity was tricky and required careful handling to ensure a smooth experience for users.
-
-2. **High Gas Prices**:  
+1. **High Gas Prices**:  
    Running transactions on the blockchain came with high gas fees, so we had to optimize the contract interactions to minimize costs.
 
-3. **Web3 RPC Provider Issue**:  
+2. **Web3 RPC Provider Issue**:  
    The Web3 RPC provider didn’t work with Ethers.js version 6, so we had to downgrade to an earlier version to make it compatible.
 
-4. **Accessing NFT Data from Wallets**:  
+3. **Accessing NFT Data from Wallets**:  
    We had issues retrieving NFT data from user wallets, as there were inconsistencies in how the data was provided.
 
-5. **Accessing IPFS Data**:  
+4. **Accessing IPFS Data**:  
    Retrieving and displaying data stored on IPFS using CIDs (Content Identifiers) was challenging due to delays and integration issues.
 
 ---
