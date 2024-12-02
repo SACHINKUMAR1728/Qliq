@@ -25,6 +25,7 @@ const CampaignForm = () => {
     { label: "Esports", value: "esports" },
     { label: "DAO", value: "dao" },
     { label: "DApp", value: "dapp" },
+    {label: "Web3", value: "web3"}
     // Add more tags as needed
   ];
 
