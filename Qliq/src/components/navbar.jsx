@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu, X, Wallet, ChevronDown } from 'lucide-react';
-
+import { Link } from "react-router-dom";
 const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -35,10 +35,12 @@ const Navbar = () => {
               <a href="#roadmap" className="text-gray-300 transition-colors hover:text-white">
                 Roadmap
               </a>
-              <button className="flex items-center gap-2 px-6 py-2 transition-opacity rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 hover:opacity-90">
-                <Wallet size={20} />
-                <span>Connect Wallet</span>
-              </button>
+              <Link to="/login">
+                <button className="flex items-center gap-2 px-6 py-2 transition-opacity rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 hover:opacity-90">
+                  <Wallet size={20} />
+                  <span>Connect Wallet</span>
+                </button>
+              </Link>
             </div>
           </div>
 
@@ -56,10 +58,12 @@ const Navbar = () => {
         <div className="md:hidden absolute w-full bg-[#131321] border-t border-white/10">
           <div className="px-4 py-3 space-y-3">
             
-            <button className="flex items-center justify-center w-full gap-2 px-6 py-2 rounded-full bg-gradient-to-r from-teal-500 to-emerald-500">
-              <Wallet size={20} />
-              <span>Connect Wallet</span>
-            </button>
+          <Link to="/login">
+                <button className="flex items-center gap-2 px-6 py-2 transition-opacity rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 hover:opacity-90">
+                  <Wallet size={20} />
+                  <span>Connect Wallet</span>
+                </button>
+              </Link>
           </div>
         </div>
       )}
