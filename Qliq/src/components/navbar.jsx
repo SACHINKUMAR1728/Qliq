@@ -26,20 +26,8 @@ const Navbar = () => {
           <div className="hidden md:block">
             <div className="flex items-center space-x-8">
               <div className="relative group">
-                <button className="flex items-center gap-1 text-gray-300 transition-colors hover:text-white">
-                  Products <ChevronDown size={16} />
-                </button>
-                <div className="hidden group-hover:block absolute top-full left-0 w-48 bg-[#131321] rounded-lg shadow-xl border border-white/10">
-                  <a href="#nft" className="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5">
-                    NFT Marketplace
-                  </a>
-                  <a href="#defi" className="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5">
-                    DeFi Platform
-                  </a>
-                  <a href="#wallet" className="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5">
-                    Web3 Wallet
-                  </a>
-                </div>
+                
+                
               </div>
               <a href="#about" className="text-gray-300 transition-colors hover:text-white">
                 About
@@ -67,15 +55,7 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden absolute w-full bg-[#131321] border-t border-white/10">
           <div className="px-4 py-3 space-y-3">
-            <a href="#products" className="block text-gray-300 transition-colors hover:text-white">
-              Products
-            </a>
-            <a href="#about" className="block text-gray-300 transition-colors hover:text-white">
-              About
-            </a>
-            <a href="#roadmap" className="block text-gray-300 transition-colors hover:text-white">
-              Roadmap
-            </a>
+            
             <button className="flex items-center justify-center w-full gap-2 px-6 py-2 rounded-full bg-gradient-to-r from-teal-500 to-emerald-500">
               <Wallet size={20} />
               <span>Connect Wallet</span>
