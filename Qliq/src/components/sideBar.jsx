@@ -16,12 +16,14 @@ const Sidebar = () => {
       <nav className="flex-1">
         <ul className="space-y-8">
           {/* Home */}
+          <Link to={"/login"}>
           <li className="flex items-center gap-4 p-4 transition-colors rounded-lg cursor-pointer group bg-gradient-to-r from-transparent to-gray-700/10 hover:bg-teal-500/20">
             <FaHome className="w-6 h-6 text-teal-400 transition-transform group-hover:scale-110" />
             <span className="text-lg font-medium transition-colors group-hover:text-white">
               Home
             </span>
           </li>
+          </Link>
           {/* Campaigns */}
           <Link to={"/dashboard/advertiser/list"}>
           <li className="flex items-center gap-4 p-4 transition-colors rounded-lg cursor-pointer group bg-gradient-to-r from-transparent to-gray-700/10 hover:bg-teal-500/20">
