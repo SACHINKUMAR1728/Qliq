@@ -1,5 +1,6 @@
 import React from "react";
 import Sidebarpub from "../components/sidebarpub";
+import ScriptsDisplay from "./ScriptsDisplay";
 
 const Metrics = ({ title }) => {
   return (
@@ -41,14 +42,8 @@ const PublisherDashboard = () => {
           <h1 className="text-3xl font-bold text-red-600">Dashboard Publisher</h1>
         </header>
 
-        <main className="grid grid-cols-1 gap-6 mt-6 md:grid-cols-2 lg:grid-cols-3">
-          {/* Metrics */}
-          <Metrics title="Metrics" />
-          <Metrics title="Metrics" />
-
-          {/* Main Sections */}
-          <Websites />
-          <Payout />
+        <main className="grid grid-cols-1">
+         <ScriptsDisplay/>
         </main>
       </div>
     </div>
